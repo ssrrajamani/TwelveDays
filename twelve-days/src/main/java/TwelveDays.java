@@ -1,47 +1,89 @@
 import java.util.ArrayList;
+
 class TwelveDays {
-    ArrayList<String> songLyrics = new ArrayList<String>();
-    public TwelveDays()
-    {
-    	songLyrics.add("On the first day of Christmas my true love gave to me: a Partridge in a Pear Tree.\n");
-    	songLyrics.add("On the second day of Christmas my true love gave to me: two Turtle Doves, and a Partridge in a Pear Tree.\n");
-    	songLyrics.add("On the third day of Christmas my true love gave to me: three French Hens, two Turtle Doves, and a Partridge in a Pear Tree.\n");
-    	songLyrics.add("On the fourth day of Christmas my true love gave to me: four Calling Birds, three French Hens, two Turtle Doves, and a Partridge in a Pear Tree.\n");
-    	songLyrics.add("On the fifth day of Christmas my true love gave to me: five Gold Rings, four Calling Birds, three French Hens, two Turtle Doves, and a Partridge in a Pear Tree.\n");
-    	songLyrics.add("On the sixth day of Christmas my true love gave to me: six Geese-a-Laying, five Gold Rings, four Calling Birds, three French Hens, two Turtle Doves, and a Partridge in a Pear Tree.\n");
-    	songLyrics.add("On the seventh day of Christmas my true love gave to me: seven Swans-a-Swimming, six Geese-a-Laying, five Gold Rings, four Calling Birds, three French Hens, two Turtle Doves, and a Partridge in a Pear Tree.\n");
-    	songLyrics.add("On the eighth day of Christmas my true love gave to me: eight Maids-a-Milking, seven Swans-a-Swimming, six Geese-a-Laying, five Gold Rings, four Calling Birds, three French Hens, two Turtle Doves, and a Partridge in a Pear Tree.\n");
-    	songLyrics.add("On the ninth day of Christmas my true love gave to me: nine Ladies Dancing, eight Maids-a-Milking, seven Swans-a-Swimming, six Geese-a-Laying, five Gold Rings, four Calling Birds, three French Hens, two Turtle Doves, and a Partridge in a Pear Tree.\n");
-    	songLyrics.add("On the tenth day of Christmas my true love gave to me: ten Lords-a-Leaping, nine Ladies Dancing, eight Maids-a-Milking, seven Swans-a-Swimming, six Geese-a-Laying, five Gold Rings, four Calling Birds, three French Hens, two Turtle Doves, and a Partridge in a Pear Tree.\n");
-    	songLyrics.add("On the eleventh day of Christmas my true love gave to me: eleven Pipers Piping, ten Lords-a-Leaping, nine Ladies Dancing, eight Maids-a-Milking, seven Swans-a-Swimming, six Geese-a-Laying, five Gold Rings, four Calling Birds, three French Hens, two Turtle Doves, and a Partridge in a Pear Tree.\n");
-    	songLyrics.add("On the twelfth day of Christmas my true love gave to me: twelve Drummers Drumming, eleven Pipers Piping, ten Lords-a-Leaping, nine Ladies Dancing, eight Maids-a-Milking, seven Swans-a-Swimming, six Geese-a-Laying, five Gold Rings, four Calling Birds, three French Hens, two Turtle Doves, and a Partridge in a Pear Tree.\n");
-    	
-    }
-    String verse(int verseNumber) {
-        return songLyrics.get(verseNumber-1);
+    private final ArrayList<String> SONG_LYRICS = new ArrayList<>();
+    private final ArrayList<String> DAYS = new ArrayList<>();
+    private final String PREFIX = " of Christmas my true love gave to me:";
+
+    public TwelveDays() {
+        DAYS.add("first");
+        DAYS.add("second");
+        DAYS.add("third");
+        DAYS.add("fourth");
+        DAYS.add("fifth");
+        DAYS.add("sixth");
+        DAYS.add("seventh");
+        DAYS.add("eighth");
+        DAYS.add("ninth");
+        DAYS.add("tenth");
+        DAYS.add("eleventh");
+        DAYS.add("twelfth");
+
+
+        SONG_LYRICS.add(" a Partridge in a Pear Tree.\n");
+        SONG_LYRICS.add(" two Turtle Doves,");
+        SONG_LYRICS.add(" three French Hens,");
+        SONG_LYRICS.add(" four Calling Birds,");
+        SONG_LYRICS.add(" five Gold Rings,");
+        SONG_LYRICS.add(" six Geese-a-Laying,");
+        SONG_LYRICS.add(" seven Swans-a-Swimming,");
+        SONG_LYRICS.add(" eight Maids-a-Milking,");
+        SONG_LYRICS.add(" nine Ladies Dancing,");
+        SONG_LYRICS.add(" ten Lords-a-Leaping,");
+        SONG_LYRICS.add(" eleven Pipers Piping,");
+        SONG_LYRICS.add(" twelve Drummers Drumming,");
+
     }
 
-    String verses(int startVerse, int endVerse) {
-        String output="";
-        for (int i=startVerse-1;i<endVerse;i++){
-        	output+=songLyrics.get(i);
-            if(i==endVerse-1)
-                continue;
-            else
-                output+="\n";
+    protected String verse(int verseNumber) {
+        StringBuilder output = new StringBuilder("On the " + DAYS.get(verseNumber - 1) + " day" + PREFIX);
+        if (verseNumber == 1)
+            output.append(SONG_LYRICS.get(0));
+        else {
+            for (int i = verseNumber; i > 0; i--) {
+                if (i == 1)
+                    output.append(" and");
+                output.append(SONG_LYRICS.get(i - 1));
+            }
         }
-        return output;
+        return output.toString();
     }
-    
-    String sing() {
-    	String output="";
-        for (int i=0;i<12;i++){
-        	output+=songLyrics.get(i);
-            if(i==11)
-                continue;
+
+    protected String verses(int startVerse, int endVerse) {
+        StringBuilder output = new StringBuilder();
+        for (int line = startVerse; line <= endVerse; line++) {
+            String lyrics = getLyrics(line);
+            if (line != endVerse)
+                output.append(lyrics).append("\n");
             else
-                output+="\n";
+                output.append(lyrics);
         }
-        return output;
+        return output.toString();
+    }
+
+    private String getLyrics(int line) {
+        StringBuilder lyrics = new StringBuilder("On the " + DAYS.get(line - 1) + " day" + PREFIX);
+        if (line == 1)
+            lyrics.append(SONG_LYRICS.get(0));
+        else {
+            for (int j = line; j > 0; j--) {
+                if (j == 1)
+                    lyrics.append(" and");
+                lyrics.append(SONG_LYRICS.get(j - 1));
+            }
+        }
+        return lyrics.toString();
+    }
+
+    protected String sing() {
+        StringBuilder output = new StringBuilder();
+        for (int line = 1; line <= 12; line++) {
+            String lyrics = getLyrics(line);
+            if (line != 12)
+                output.append(lyrics).append("\n");
+            else
+                output.append(lyrics);
+        }
+        return output.toString();
     }
 }
